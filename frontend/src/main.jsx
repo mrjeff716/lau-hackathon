@@ -9,15 +9,19 @@ import './index.css' // Tailwind styles
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router'
 import { Toaster } from "react-hot-toast"
+import AuthProvider from './auth/AuthProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
   // StrictMode: extra checks during development only (no effect in production)
   <StrictMode>
     {/* BrowserRouter: lets the app show different pages for different URLs */}
     <BrowserRouter>
-    <App />
-    {/* Toaster: where pop-up notifications (toast.success(...)) appear */}
-    <Toaster />
+      {/* AuthProvider: makes "who is logged in" available everywhere */}
+      <AuthProvider>
+        <App />
+        {/* Toaster: where pop-up notifications (toast.success(...)) appear */}
+        <Toaster />
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
 )

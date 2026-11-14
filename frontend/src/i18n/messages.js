@@ -1,0 +1,306 @@
+// =============================================================================
+// messages.js — every piece of text the exercise coach says or shows, in each
+// language.
+//
+// Each language has:
+//   name        -> how the language appears in the picker (in its own language)
+//   speechLang  -> voice language for the browser's text-to-speech
+//   dir         -> "rtl" for right-to-left languages (Arabic), else "ltr"
+//   speech      -> what the coach says out loud during the exercise
+//   ui          -> on-screen text on the exercise screen
+//   exercises   -> exercise names (keys match the ids in the exercise catalog JSON)
+//
+// To add a language: copy the "en" block, change the key (e.g. "pt"), and
+// translate every string. Missing strings fall back to English.
+// =============================================================================
+
+export const LANGUAGES = {
+  ar: {
+    name: "العربية",
+    speechLang: "ar-LB", // Lebanese Arabic; falls back to any Arabic voice
+    dir: "rtl",
+    speech: {
+      tooFar: "خفّف شوي، ما تزيد عن الحد",       // "ease off a bit, don't go past the limit"
+      notEnough: "كمّل شوي كمان",                // "keep going a little more"
+      good: "ممتاز",                              // "excellent"
+      notVisible: "رجاع لورا، لازم شوفك كلّك",  // "step back, I need to see all of you"
+      done: "برافو، خلّصت كل التكرارات",         // "well done, you finished all the reps"
+    },
+    ui: {
+      language: "اللغة",
+      angle: "الزاوية",
+      target: "الهدف",
+      reps: "التكرارات",
+      finish: "إنهاء الجلسة",
+      back: "رجوع",
+      left: "شمال",
+      right: "يمين",
+      loading: "عم يتحمّل النموذج…",
+      moveIntoView: "تحرّك ليبيّن كل الطرف بالكاميرا",
+      pastSafe: "تجاوزت الحد الآمن!",
+      targetReached: "برافو، خلّصت كل التكرارات! فيك تنهي الجلسة.",
+      cameraBlocked: "الكاميرا مسكّرة: ",
+      modelError: "ما قدرنا نحمّل النموذج: ",
+      saved: (good, total) => `انحفظت الجلسة: ${good}/${total} تكرارات صحيحة`,
+    },
+    exercises: {
+      supine_heel_slide: "سحب الكعب (ثني الركبة وانت ممدّد)",
+      seated_knee_extension: "فرد الركبة وانت قاعد",
+      standing_shoulder_forward_flexion: "رفع الإيد لقدّام وانت واقف",
+      seated_elbow_flexion: "ثني الكوع",
+      standing_hip_abduction: "رفع الإجر عالجنب وانت واقف",
+    },
+  },
+
+  en: {
+    name: "English",
+    speechLang: "en-US",
+    dir: "ltr",
+    speech: {
+      tooFar: "Ease off a little, don't go past your limit",
+      notEnough: "Try to go a little further",
+      good: "Excellent",
+      notVisible: "Step back, I need to see all of you",
+      done: "Well done, you finished all your reps",
+    },
+    ui: {
+      language: "Language",
+      angle: "Angle",
+      target: "Target",
+      reps: "Reps",
+      finish: "Finish session",
+      back: "Back",
+      left: "Left",
+      right: "Right",
+      loading: "Loading model…",
+      moveIntoView: "Move so the whole limb is in view",
+      pastSafe: "Past your safe range!",
+      targetReached: "Well done, all reps finished! You can finish the session.",
+      cameraBlocked: "Camera blocked: ",
+      modelError: "Could not load the pose model: ",
+      saved: (good, total) => `Session saved: ${good}/${total} good reps`,
+    },
+    exercises: {
+      supine_heel_slide: "Heel slide (knee bend, lying down)",
+      seated_knee_extension: "Seated knee extension",
+      standing_shoulder_forward_flexion: "Standing shoulder forward raise",
+      seated_elbow_flexion: "Elbow bend",
+      standing_hip_abduction: "Standing hip abduction (side leg raise)",
+    },
+  },
+
+  fr: {
+    name: "Français",
+    speechLang: "fr-FR",
+    dir: "ltr",
+    speech: {
+      tooFar: "Doucement, ne dépassez pas la limite",
+      notEnough: "Essayez d'aller un peu plus loin",
+      good: "Excellent",
+      notVisible: "Reculez, je dois vous voir en entier",
+      done: "Bravo, vous avez terminé toutes vos répétitions",
+    },
+    ui: {
+      language: "Langue",
+      angle: "Angle",
+      target: "Objectif",
+      reps: "Répétitions",
+      finish: "Terminer la séance",
+      back: "Retour",
+      left: "Gauche",
+      right: "Droite",
+      loading: "Chargement du modèle…",
+      moveIntoView: "Placez-vous pour que tout le membre soit visible",
+      pastSafe: "Vous dépassez votre zone de sécurité !",
+      targetReached: "Bravo, toutes les répétitions sont faites ! Vous pouvez terminer la séance.",
+      cameraBlocked: "Caméra bloquée : ",
+      modelError: "Impossible de charger le modèle : ",
+      saved: (good, total) => `Séance enregistrée : ${good}/${total} bonnes répétitions`,
+    },
+    exercises: {
+      supine_heel_slide: "Glissement du talon (flexion du genou, allongé)",
+      seated_knee_extension: "Extension du genou en position assise",
+      standing_shoulder_forward_flexion: "Élévation du bras vers l'avant, debout",
+      seated_elbow_flexion: "Flexion du coude",
+      standing_hip_abduction: "Abduction de la hanche debout (levée latérale de la jambe)",
+    },
+  },
+
+  es: {
+    name: "Español",
+    speechLang: "es-ES",
+    dir: "ltr",
+    speech: {
+      tooFar: "Con calma, no pases tu límite",
+      notEnough: "Intenta llegar un poco más lejos",
+      good: "Excelente",
+      notVisible: "Da un paso atrás, necesito verte entero",
+      done: "Muy bien, has terminado todas las repeticiones",
+    },
+    ui: {
+      language: "Idioma",
+      angle: "Ángulo",
+      target: "Objetivo",
+      reps: "Repeticiones",
+      finish: "Terminar sesión",
+      back: "Volver",
+      left: "Izquierda",
+      right: "Derecha",
+      loading: "Cargando modelo…",
+      moveIntoView: "Colócate para que se vea toda la extremidad",
+      pastSafe: "¡Has pasado tu rango seguro!",
+      targetReached: "¡Muy bien, repeticiones completadas! Puedes terminar la sesión.",
+      cameraBlocked: "Cámara bloqueada: ",
+      modelError: "No se pudo cargar el modelo: ",
+      saved: (good, total) => `Sesión guardada: ${good}/${total} repeticiones buenas`,
+    },
+    exercises: {
+      supine_heel_slide: "Deslizamiento del talón (flexión de rodilla, tumbado)",
+      seated_knee_extension: "Extensión de rodilla sentado",
+      standing_shoulder_forward_flexion: "Elevación frontal del hombro de pie",
+      seated_elbow_flexion: "Flexión de codo",
+      standing_hip_abduction: "Abducción de cadera de pie (elevación lateral de pierna)",
+    },
+  },
+
+  de: {
+    name: "Deutsch",
+    speechLang: "de-DE",
+    dir: "ltr",
+    speech: {
+      tooFar: "Etwas weniger, geh nicht über deine Grenze",
+      notEnough: "Versuch, noch ein bisschen weiter zu gehen",
+      good: "Ausgezeichnet",
+      notVisible: "Geh einen Schritt zurück, ich muss dich ganz sehen",
+      done: "Gut gemacht, du hast alle Wiederholungen geschafft",
+    },
+    ui: {
+      language: "Sprache",
+      angle: "Winkel",
+      target: "Ziel",
+      reps: "Wiederholungen",
+      finish: "Sitzung beenden",
+      back: "Zurück",
+      left: "Links",
+      right: "Rechts",
+      loading: "Modell wird geladen…",
+      moveIntoView: "Stell dich so hin, dass die ganze Gliedmaße sichtbar ist",
+      pastSafe: "Du bist über deinem sicheren Bereich!",
+      targetReached: "Gut gemacht, alle Wiederholungen geschafft! Du kannst die Sitzung beenden.",
+      cameraBlocked: "Kamera blockiert: ",
+      modelError: "Das Modell konnte nicht geladen werden: ",
+      saved: (good, total) => `Sitzung gespeichert: ${good}/${total} gute Wiederholungen`,
+    },
+    exercises: {
+      supine_heel_slide: "Fersengleiten (Kniebeugung im Liegen)",
+      seated_knee_extension: "Kniestreckung im Sitzen",
+      standing_shoulder_forward_flexion: "Arm im Stehen nach vorne heben",
+      seated_elbow_flexion: "Ellbogenbeugung",
+      standing_hip_abduction: "Hüftabduktion im Stehen (Bein seitlich heben)",
+    },
+  },
+
+  it: {
+    name: "Italiano",
+    speechLang: "it-IT",
+    dir: "ltr",
+    speech: {
+      tooFar: "Piano, non superare il tuo limite",
+      notEnough: "Prova ad andare un po' più in là",
+      good: "Ottimo",
+      notVisible: "Fai un passo indietro, devo vederti tutto",
+      done: "Bravo, hai completato tutte le ripetizioni",
+    },
+    ui: {
+      language: "Lingua",
+      angle: "Angolo",
+      target: "Obiettivo",
+      reps: "Ripetizioni",
+      finish: "Termina sessione",
+      back: "Indietro",
+      left: "Sinistra",
+      right: "Destra",
+      loading: "Caricamento del modello…",
+      moveIntoView: "Posizionati in modo che tutto l'arto sia visibile",
+      pastSafe: "Hai superato il tuo limite di sicurezza!",
+      targetReached: "Bravo, ripetizioni completate! Puoi terminare la sessione.",
+      cameraBlocked: "Fotocamera bloccata: ",
+      modelError: "Impossibile caricare il modello: ",
+      saved: (good, total) => `Sessione salvata: ${good}/${total} ripetizioni corrette`,
+    },
+    exercises: {
+      supine_heel_slide: "Scivolamento del tallone (flessione del ginocchio, sdraiato)",
+      seated_knee_extension: "Estensione del ginocchio da seduto",
+      standing_shoulder_forward_flexion: "Sollevamento frontale del braccio in piedi",
+      seated_elbow_flexion: "Flessione del gomito",
+      standing_hip_abduction: "Abduzione dell'anca in piedi (sollevamento laterale della gamba)",
+    },
+  },
+
+  tr: {
+    name: "Türkçe",
+    speechLang: "tr-TR",
+    dir: "ltr",
+    speech: {
+      tooFar: "Biraz azalt, sınırını aşma",
+      notEnough: "Biraz daha ileri gitmeye çalış",
+      good: "Mükemmel",
+      notVisible: "Biraz geri çekil, seni tamamen görmem gerekiyor",
+      done: "Aferin, tüm tekrarlarını bitirdin",
+    },
+    ui: {
+      language: "Dil",
+      angle: "Açı",
+      target: "Hedef",
+      reps: "Tekrar",
+      finish: "Seansı bitir",
+      back: "Geri",
+      left: "Sol",
+      right: "Sağ",
+      loading: "Model yükleniyor…",
+      moveIntoView: "Tüm uzvun görünecek şekilde konumlan",
+      pastSafe: "Güvenli aralığını aştın!",
+      targetReached: "Aferin, tüm tekrarlar bitti! Seansı bitirebilirsin.",
+      cameraBlocked: "Kamera engellendi: ",
+      modelError: "Model yüklenemedi: ",
+      saved: (good, total) => `Seans kaydedildi: ${good}/${total} doğru tekrar`,
+    },
+    exercises: {
+      supine_heel_slide: "Topuk kaydırma (sırtüstü diz bükme)",
+      seated_knee_extension: "Oturarak diz düzeltme",
+      standing_shoulder_forward_flexion: "Ayakta kolu öne kaldırma",
+      seated_elbow_flexion: "Dirsek bükme",
+      standing_hip_abduction: "Ayakta kalça abdüksiyonu (bacağı yana kaldırma)",
+    },
+  },
+};
+
+export const DEFAULT_LANG = "ar";
+
+// Returns the text for a language. Any string missing in that language
+// falls back to English, so the app never shows a blank.
+export function getStrings(lang) {
+  const chosen = LANGUAGES[lang] ?? LANGUAGES[DEFAULT_LANG];
+  const en = LANGUAGES.en;
+  return {
+    ...en,
+    ...chosen,
+    speech: { ...en.speech, ...chosen.speech },
+    ui: { ...en.ui, ...chosen.ui },
+    exercises: { ...en.exercises, ...chosen.exercises },
+  };
+}
+
+// The chosen language is remembered on this device (browser storage).
+// Storage can be blocked (e.g. private mode), so every access is wrapped in try/catch.
+const LANG_KEY = "coachLanguage";
+export function loadLang() {
+  try {
+    const saved = localStorage.getItem(LANG_KEY);
+    if (saved && LANGUAGES[saved]) return saved;
+  } catch { /* storage unavailable: use default */ }
+  return DEFAULT_LANG;
+}
+export function saveLang(lang) {
+  try { localStorage.setItem(LANG_KEY, lang); } catch { /* ignore */ }
+}

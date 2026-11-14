@@ -1,0 +1,450 @@
+{
+  "title": "Five representative rehabilitation exercises for MediaPipe joint-angle tracking",
+  "version": "1.0",
+  "date_created": "2026-11-14",
+  "units": "degrees",
+  "scope_note": "These are five widely used examples, NOT an evidence-based ranking of the five most common exercises worldwide.",
+  "safety_note": "Healthy normative ROM is NOT a rehabilitation prescription, required performance threshold, or safe movement limit. A licensed physiotherapist or physician must set diagnosis-, procedure-, and phase-specific limits and goals for each patient. Stop and seek clinical advice for new or escalating symptoms. The software is intended to assist rather than replace clinical assessment.",
+  "measurement_note": "MediaPipe estimates external landmarks; the resulting angles are approximations, not clinically validated goniometry or intra-articular joint motion. Calibrate cameras, align with the relevant motion plane, track 3D / multi-view consistency where feasible, and validate degree error against a clinical reference before clinical deployment.",
+  "patient_specific_fields_required_before_use": [
+    "clinical_clearance",
+    "permitted_angle_min_deg",
+    "permitted_angle_max_deg",
+    "target_angle_deg",
+    "exercise_side",
+    "repetitions_prescribed",
+    "pain_or_symptom_stop_criteria",
+    "clinician_id"
+  ],
+  "exercises": [
+    {
+      "id": "supine_heel_slide",
+      "name": "Supine heel slide",
+      "region": "lower_body",
+      "primary_joint": "knee",
+      "movement": "knee_flexion",
+      "purpose": "Restore or monitor knee bending range of motion",
+      "setup": "Lie supine on a firm surface with both legs initially comfortably extended.",
+      "ideal_form": [
+        "Keep pelvis and trunk reasonably still.",
+        "Slide the target heel toward the buttocks along the support surface.",
+        "Allow the knee to bend smoothly without rotating the hip markedly or lifting the heel.",
+        "Return the heel smoothly to the starting position.",
+        "Use only the motion permitted by the treating clinician; do not push through sharp pain."
+      ],
+      "reference_rom_deg": {
+        "joint": "knee",
+        "motion": "flexion",
+        "neutral": 0,
+        "healthy_reference_max": 135,
+        "units": "degrees",
+        "clinical_goal_deg": null,
+        "interpretation": "0° is a straight knee; 135° is an approximate conventional full-flexion reference for healthy adults, not a prescribed post-injury/postoperative target."
+      },
+      "illustrative_motion_deg": {
+        "start": 0,
+        "end": 135,
+        "label": "anatomical reference endpoints only; patient may have a much smaller permitted range"
+      },
+      "measurement": {
+        "joint": "knee",
+        "flexion_reference_deg": {
+          "min": 0,
+          "max": 135,
+          "basis": "Approximate conventional adult anatomical reference, not a rehabilitation target"
+        },
+        "mediapipe_landmarks_per_side": {
+          "left": [
+            "left_hip",
+            "left_knee",
+            "left_ankle"
+          ],
+          "right": [
+            "right_hip",
+            "right_knee",
+            "right_ankle"
+          ]
+        },
+        "mediapipe_ids": {
+          "left": [
+            23,
+            25,
+            27
+          ],
+          "right": [
+            24,
+            26,
+            28
+          ]
+        },
+        "calculation": "Knee flexion = 180 - included angle at knee formed by hip-knee-ankle landmarks; 0° denotes full extension (straight leg).",
+        "preferred_camera_view": "True lateral (side) view, with the target leg visible, camera fixed; two calibrated cameras can improve 3D assessment.",
+        "output": "peak_knee_flexion_deg"
+      },
+      "form_flags": [
+        "heel_lifts_from_support",
+        "pelvic_rotation_or_shift",
+        "contralateral_leg_obscures_landmarks",
+        "knee_movement_outside_camera_plane"
+      ],
+      "sources": [
+        "nhs_heel",
+        "rom_norms",
+        "cdc_rom",
+        "mediapipe_landmarks"
+      ]
+    },
+    {
+      "id": "seated_knee_extension",
+      "name": "Seated knee extension (long-arc quadriceps)",
+      "region": "lower_body",
+      "primary_joint": "knee",
+      "movement": "knee_extension",
+      "purpose": "Monitor active knee straightening while strengthening the quadriceps",
+      "setup": "Sit upright on a stable chair with the thighs supported and the target lower leg hanging comfortably.",
+      "ideal_form": [
+        "Keep thigh on the seat and trunk upright.",
+        "Straighten the target knee slowly as far as comfortable and permitted.",
+        "Avoid swinging, trunk leaning, or lifting the whole thigh.",
+        "Pause briefly if prescribed, then lower under control."
+      ],
+      "reference_rom_deg": {
+        "joint": "knee",
+        "motion": "extension",
+        "anatomical_full_extension": 0,
+        "units": "degrees_of_knee_flexion",
+        "clinical_goal_deg": null,
+        "interpretation": "Full extension corresponds to approximately 0° knee flexion; exercise often starts near 90° knee flexion. Hyperextension varies by person and should not be required automatically."
+      },
+      "illustrative_motion_deg": {
+        "start": 90,
+        "end": 0,
+        "label": "common seated movement illustration, not mandatory individual target"
+      },
+      "measurement": {
+        "joint": "knee",
+        "flexion_reference_deg": {
+          "min": 0,
+          "max": 135,
+          "basis": "Approximate conventional adult anatomical reference, not a rehabilitation target"
+        },
+        "mediapipe_landmarks_per_side": {
+          "left": [
+            "left_hip",
+            "left_knee",
+            "left_ankle"
+          ],
+          "right": [
+            "right_hip",
+            "right_knee",
+            "right_ankle"
+          ]
+        },
+        "mediapipe_ids": {
+          "left": [
+            23,
+            25,
+            27
+          ],
+          "right": [
+            24,
+            26,
+            28
+          ]
+        },
+        "calculation": "Knee flexion = 180 - included angle at knee formed by hip-knee-ankle landmarks; 0° denotes full extension (straight leg).",
+        "preferred_camera_view": "True lateral (side) view, with the target leg visible, camera fixed; two calibrated cameras can improve 3D assessment.",
+        "output": "minimum_knee_flexion_deg_at_peak_extension"
+      },
+      "form_flags": [
+        "thigh_lifts_off_seat",
+        "trunk_leaning",
+        "rapid_swinging",
+        "ankle_occluded_by_chair"
+      ],
+      "sources": [
+        "nhs_knee_ext",
+        "rom_norms",
+        "cdc_rom",
+        "mediapipe_landmarks"
+      ]
+    },
+    {
+      "id": "standing_shoulder_forward_flexion",
+      "name": "Standing shoulder forward raise (active flexion)",
+      "region": "upper_body",
+      "primary_joint": "shoulder",
+      "movement": "shoulder_flexion",
+      "purpose": "Monitor forward elevation of the arm and shoulder mobility",
+      "setup": "Stand or sit tall with arms at sides; use the affected arm only if cleared for active motion.",
+      "ideal_form": [
+        "Raise the arm slowly forward and upward in the sagittal plane.",
+        "Keep the trunk upright and avoid leaning backward to increase apparent arm height.",
+        "Avoid excessive shoulder shrugging; keep the elbow comfortably straight if permitted.",
+        "Lower smoothly to starting position.",
+        "If active movement is restricted, therapist may prescribe an assisted version instead."
+      ],
+      "reference_rom_deg": {
+        "joint": "shoulder_complex",
+        "motion": "flexion",
+        "neutral": 0,
+        "healthy_reference_max": 180,
+        "units": "degrees",
+        "clinical_goal_deg": null,
+        "interpretation": "0–180° is a conventional shoulder-complex reference, not pure glenohumeral motion and not a default rehabilitation goal."
+      },
+      "illustrative_motion_deg": {
+        "start": 0,
+        "end": 180,
+        "label": "anatomical reference endpoints only"
+      },
+      "measurement": {
+        "joint": "shoulder_complex",
+        "mediapipe_landmarks_per_side": {
+          "left": [
+            "left_hip",
+            "left_shoulder",
+            "left_elbow"
+          ],
+          "right": [
+            "right_hip",
+            "right_shoulder",
+            "right_elbow"
+          ]
+        },
+        "mediapipe_ids": {
+          "left": [
+            23,
+            11,
+            13
+          ],
+          "right": [
+            24,
+            12,
+            14
+          ]
+        },
+        "calculation": "In the sagittal plane, angle between vector shoulder->hip (arm-down reference) and shoulder->elbow. 0° = arm at side; ~90° = arm in front; ~180° = arm overhead. Control for trunk lean and scapular motion.",
+        "output": "peak_shoulder_forward_elevation_deg",
+        "preferred_camera_view": "Lateral (side) view of the target arm, entire shoulder and hip visible."
+      },
+      "form_flags": [
+        "trunk_extension_or_back_lean",
+        "shoulder_shrug",
+        "arm_moving_out_of_sagittal_plane",
+        "elbow_bending_excessively"
+      ],
+      "sources": [
+        "nhs_shoulder",
+        "rom_norms",
+        "soucie_2011",
+        "mediapipe_landmarks"
+      ]
+    },
+    {
+      "id": "seated_elbow_flexion",
+      "name": "Seated or standing elbow flexion",
+      "region": "upper_body",
+      "primary_joint": "elbow",
+      "movement": "elbow_flexion",
+      "purpose": "Restore or monitor elbow bending range of motion",
+      "setup": "Sit or stand with upper arm close to the torso, forearm unsupported or supported as prescribed.",
+      "ideal_form": [
+        "Keep the upper arm relatively still at the side.",
+        "Bend the elbow slowly, bringing hand toward shoulder.",
+        "Avoid swinging the shoulder or leaning the trunk to compensate.",
+        "Straighten the elbow under control without forcing end range."
+      ],
+      "reference_rom_deg": {
+        "joint": "elbow",
+        "motion": "flexion",
+        "neutral": 0,
+        "healthy_reference_max": 150,
+        "units": "degrees",
+        "clinical_goal_deg": null,
+        "interpretation": "0° indicates full elbow extension; 150° is a conventional healthy elbow flexion reference and may not be appropriate for a particular patient."
+      },
+      "illustrative_motion_deg": {
+        "start": 0,
+        "end": 150,
+        "label": "anatomical reference endpoints only"
+      },
+      "measurement": {
+        "joint": "elbow",
+        "mediapipe_landmarks_per_side": {
+          "left": [
+            "left_shoulder",
+            "left_elbow",
+            "left_wrist"
+          ],
+          "right": [
+            "right_shoulder",
+            "right_elbow",
+            "right_wrist"
+          ]
+        },
+        "mediapipe_ids": {
+          "left": [
+            11,
+            13,
+            15
+          ],
+          "right": [
+            12,
+            14,
+            16
+          ]
+        },
+        "calculation": "Elbow flexion = 180 - included angle at elbow formed by shoulder-elbow-wrist. 0° represents straight elbow.",
+        "output": "peak_elbow_flexion_deg",
+        "preferred_camera_view": "Side view perpendicular to the forearm movement plane; shoulder, elbow, wrist fully visible."
+      },
+      "form_flags": [
+        "shoulder_moves_forward",
+        "trunk_leaning",
+        "occluded_wrist",
+        "forearm_moves_out_of_camera_plane"
+      ],
+      "sources": [
+        "nhs_elbow",
+        "rom_norms",
+        "soucie_2011",
+        "mediapipe_landmarks"
+      ]
+    },
+    {
+      "id": "standing_hip_abduction",
+      "name": "Standing hip abduction (side leg raise)",
+      "region": "lower_body",
+      "primary_joint": "hip",
+      "movement": "hip_abduction",
+      "purpose": "Monitor hip abduction control and strengthen lateral hip muscles",
+      "setup": "Stand upright beside a sturdy support; hold it for balance and keep the stance leg stable.",
+      "ideal_form": [
+        "Keep pelvis approximately level and toes facing forward.",
+        "Move the target leg to the side in a slow controlled movement without swinging.",
+        "Maintain an upright trunk, avoiding lateral lean, pelvic hike, or twisting.",
+        "Return to starting position in a controlled manner."
+      ],
+      "reference_rom_deg": {
+        "joint": "hip",
+        "motion": "abduction",
+        "neutral": 0,
+        "healthy_reference_max": 45,
+        "units": "degrees",
+        "clinical_goal_deg": null,
+        "interpretation": "0–45° is an approximate conventional healthy anatomical range, not a required exercise elevation and may be restricted after surgery."
+      },
+      "illustrative_motion_deg": {
+        "start": 0,
+        "end": 45,
+        "label": "anatomical reference endpoints only; standing strengthening exercise may use substantially less"
+      },
+      "measurement": {
+        "joint": "hip",
+        "mediapipe_landmarks_per_side": {
+          "left": [
+            "left_shoulder",
+            "left_hip",
+            "left_knee",
+            "right_hip"
+          ],
+          "right": [
+            "right_shoulder",
+            "right_hip",
+            "right_knee",
+            "left_hip"
+          ]
+        },
+        "mediapipe_ids": {
+          "left": [
+            11,
+            23,
+            25,
+            24
+          ],
+          "right": [
+            12,
+            24,
+            26,
+            23
+          ]
+        },
+        "calculation": "Estimate angle of target thigh (hip->knee) away from its neutral downward direction in frontal plane; adjust for pelvic tilt using both hips. A simple trunk-thigh proxy is not isolated clinical hip-joint ROM.",
+        "output": "peak_hip_abduction_deg",
+        "preferred_camera_view": "Frontal view centered on pelvis, both hips and both knees visible; additional calibrated view for rotation and depth."
+      },
+      "form_flags": [
+        "pelvic_hike",
+        "trunk_side_lean",
+        "pelvic_rotation",
+        "toe_turns_out",
+        "leg_swinging"
+      ],
+      "sources": [
+        "nhs_hip",
+        "rom_norms",
+        "mediapipe_landmarks"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "rom_norms",
+      "title": "Norkin & White's Measurement of Joint Motion: A Guide to Goniometry, 6th ed., Appendix A",
+      "type": "clinical_textbook",
+      "url": "https://fadavispt.mhmedical.com/content.aspx?bookid=3621&sectionid=303386712",
+      "scholar_search_url": "https://scholar.google.com/scholar?q=Norkin+White+Measurement+of+Joint+Motion+Guide+to+Goniometry+normative+values"
+    },
+    {
+      "id": "soucie_2011",
+      "title": "Soucie et al. (2011), Range of motion measurements: reference values and a database for comparison studies",
+      "type": "peer_reviewed_research",
+      "doi": "10.1111/j.1365-2516.2010.02399.x",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/21070485/",
+      "scholar_search_url": "https://scholar.google.com/scholar?q=Soucie+Range+of+motion+measurements+reference+values+database+comparison+studies+2011"
+    },
+    {
+      "id": "cdc_rom",
+      "title": "CDC Normal Joint Range of Motion Study (age- and sex-specific healthy reference values)",
+      "type": "reference_dataset",
+      "url": "https://archive.cdc.gov/www_cdc_gov/ncbddd/jointrom/index_1715172647.html"
+    },
+    {
+      "id": "mediapipe_landmarks",
+      "title": "Google AI Edge — Pose Landmarker guide and landmark indices",
+      "type": "technical_documentation",
+      "url": "https://developers.google.com/edge/mediapipe/solutions/vision/pose_landmarker"
+    },
+    {
+      "id": "nhs_heel",
+      "title": "Cambridge University Hospitals NHS — Knee exercises (heel slides)",
+      "type": "hospital_exercise_guidance",
+      "url": "https://www.cuh.nhs.uk/patient-information/knee-exercises/"
+    },
+    {
+      "id": "nhs_knee_ext",
+      "title": "Newcastle Hospitals NHS — Osteoarthritis hip and knee (seated knee extension)",
+      "type": "hospital_exercise_guidance",
+      "url": "https://www.newcastle-hospitals.nhs.uk/services/newcastle-occupational-health-service/information-for-staff/physiotherapy/self-help-leaflets/osteoarthritis-oa-hip-and-knee/"
+    },
+    {
+      "id": "nhs_shoulder",
+      "title": "Hull University Teaching Hospitals NHS — Rehabilitation and Goal Setting (shoulder forward raise)",
+      "type": "hospital_exercise_guidance",
+      "url": "https://www.hey.nhs.uk/patient-leaflet/rehabilitation-and-goal-setting/"
+    },
+    {
+      "id": "nhs_elbow",
+      "title": "South Tees Hospitals NHS — Elbow ROM (flexion)",
+      "type": "hospital_exercise_guidance",
+      "url": "https://www.southtees.nhs.uk/resources/elbow-rom/"
+    },
+    {
+      "id": "nhs_hip",
+      "title": "South Tees Hospitals NHS — Hip abduction in standing",
+      "type": "hospital_exercise_guidance",
+      "url": "https://www.southtees.nhs.uk/resources/hip-abduction-in-standing/"
+    }
+  ]
+}

@@ -2,3 +2,165 @@
 @tailwind components;
 @tailwind utilities;
 
+/* -----------------------------------------------------------------------------
+   Design layer — visual styling only. No behaviour lives here.
+   ----------------------------------------------------------------------------- */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply min-h-screen bg-canvas font-sans text-slate-800 antialiased;
+    background-image:
+      radial-gradient(60rem 30rem at 100% -10%, rgb(173 228 217 / 0.35), transparent 60%),
+      radial-gradient(40rem 24rem at -10% 0%, rgb(214 242 236 / 0.5), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3 {
+    @apply tracking-tight text-slate-900;
+  }
+
+  ::selection {
+    @apply bg-brand-200 text-brand-900;
+  }
+
+  /* Visible, consistent keyboard focus everywhere */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white;
+  }
+
+  input[type="radio"],
+  input[type="checkbox"] {
+    @apply h-4 w-4 shrink-0 cursor-pointer;
+    accent-color: theme('colors.brand.600');
+  }
+
+  button:disabled {
+    @apply cursor-not-allowed;
+  }
+
+  code {
+    @apply font-mono;
+  }
+
+  /* Disclosure ("How to do it") */
+  details > summary {
+    @apply cursor-pointer select-none list-none font-medium text-brand-700;
+  }
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+  details > summary::before {
+    content: "";
+    @apply me-2 inline-block h-2 w-2 -translate-y-px rotate-[-45deg] border-b-2 border-e-2 border-current transition-transform;
+  }
+  [dir="rtl"] details > summary::before {
+    @apply rotate-[135deg];
+  }
+  details[open] > summary::before {
+    @apply rotate-45;
+  }
+}
+
+@layer components {
+  /* Surfaces */
+  .card {
+    @apply rounded-2xl border border-slate-200/80 bg-white shadow-card;
+  }
+
+  .section-title {
+    @apply mb-4 text-lg font-semibold text-slate-900;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl px-4 py-2 text-sm font-semibold
+      transition duration-150 ease-out active:scale-[0.98] disabled:opacity-50 disabled:active:scale-100;
+  }
+  .btn-primary {
+    @apply btn bg-brand-600 text-white shadow-sm hover:bg-brand-700 disabled:hover:bg-brand-600;
+  }
+  .btn-secondary {
+    @apply btn border border-slate-200 bg-white text-slate-700 shadow-sm hover:border-slate-300 hover:bg-slate-50;
+  }
+  .btn-ghost {
+    @apply btn text-slate-600 hover:bg-slate-100 hover:text-slate-900;
+  }
+  .btn-danger {
+    @apply btn border border-transparent text-red-700 hover:border-red-100 hover:bg-red-50;
+  }
+  .btn-lg {
+    @apply px-5 py-3 text-base;
+  }
+
+  /* Form controls */
+  .field {
+    @apply block w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-[0.9375rem] text-slate-900
+      shadow-sm transition placeholder:text-slate-400
+      hover:border-slate-300 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/15;
+  }
+  .field-sm {
+    @apply field rounded-lg px-2.5 py-1.5 text-sm;
+  }
+  .field-label {
+    @apply flex flex-col gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500;
+  }
+
+  /* Feedback */
+  .alert-error {
+    @apply rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700;
+  }
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+
+  /* Link */
+  .link {
+    @apply font-semibold text-brand-700 underline-offset-4 hover:text-brand-800 hover:underline;
+  }
+
+  /* Data table (physio sessions) */
+  .data-table {
+    @apply w-full border-collapse text-sm;
+  }
+  .data-table th {
+    @apply border-b border-slate-200 bg-slate-50 px-3 py-2 text-start text-xs font-semibold uppercase tracking-wide text-slate-500;
+  }
+  .data-table td {
+    @apply border-b border-slate-100 px-3 py-2.5 text-slate-700;
+  }
+  .data-table tbody tr:last-child td {
+    @apply border-b-0;
+  }
+  .data-table tbody tr:hover td {
+    @apply bg-brand-50/40;
+  }
+
+  /* Auth pages: a centred card */
+  .auth-card {
+    @apply card mx-auto mt-[12vh] w-full max-w-sm p-8 sm:p-10;
+  }
+  .auth-card > h1::before {
+    content: "";
+    @apply mb-6 block h-11 w-11 rounded-2xl bg-gradient-to-br from-brand-400 to-brand-700 shadow-lift;
+    /* simple "plus" mark, drawn with CSS so no markup changes are needed */
+    background-image:
+      linear-gradient(white, white),
+      linear-gradient(white, white),
+      linear-gradient(135deg, theme('colors.brand.400'), theme('colors.brand.700'));
+    background-size: 4px 20px, 20px 4px, 100% 100%;
+    background-position: center, center, center;
+    background-repeat: no-repeat;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

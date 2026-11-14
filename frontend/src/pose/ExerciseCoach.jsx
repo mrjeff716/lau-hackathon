@@ -197,32 +197,32 @@ export default function ExerciseCoach({ assignment, lang = DEFAULT_LANG, onFinis
     });
   }
 
-  if (!points) return <p>Unknown exercise: {assignment.exerciseId}</p>;
-  if (error) return <p dir={t.dir}>{t.ui.modelError}{String(error)}</p>;
+  if (!points) return <p className="alert-error">Unknown exercise: {assignment.exerciseId}</p>;
+  if (error) return <p dir={t.dir} className="alert-error">{t.ui.modelError}{String(error)}</p>;
 
   return (
     // dir="rtl" makes Arabic text read right-to-left
-    <div dir={t.dir} style={{ maxWidth: 640 }}>
-      <h2 className="text-xl font-semibold">
+    <div dir={t.dir} className="mx-auto flex max-w-[640px] flex-col gap-4">
+      <h2 className="text-2xl font-bold">
         {t.exercises[assignment.exerciseId] ?? assignment.exerciseId} · {t.ui[assignment.side]}
       </h2>
       {/* Video and canvas are stacked: the skeleton drawing sits on top of the camera */}
-      <div style={{ position: "relative" }}>
+      <div className="overflow-hidden rounded-2xl bg-slate-900 shadow-lift ring-1 ring-slate-900/10" style={{ position: "relative" }}>
         {/* mirrored so it feels like a mirror to the patient */}
-        <video ref={videoRef} playsInline muted style={{ width: "100%", transform: "scaleX(-1)" }} />
+        <video ref={videoRef} playsInline muted className="block aspect-[4/3] bg-slate-900 object-cover" style={{ width: "100%", transform: "scaleX(-1)" }} />
         <canvas ref={canvasRef}
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", transform: "scaleX(-1)" }} />
       </div>
-      {!ready && <p>{t.ui.loading}</p>}
+      {!ready && <p className="animate-pulse text-center text-sm font-medium text-slate-500">{t.ui.loading}</p>}
       {/* Big, easy-to-read live numbers */}
-      <p style={{ fontSize: 28 }}>
+      <p className="card px-5 py-4 text-center text-2xl font-bold tabular-nums text-slate-900 sm:text-[1.75rem]">
         {t.ui.angle}: {angle ?? "—"}° · {t.ui.target}: {assignment.targetAngle}° · {t.ui.reps}: {reps}/{assignment.reps}
       </p>
-      {warning && <p style={{ color: "crimson", fontSize: 22 }}>{warning}</p>}
-      {reps >= assignment.reps && <p style={{ color: "green", fontSize: 22 }}>{t.ui.targetReached}</p>}
-      <div className="mt-2 flex gap-2">
-        <button className="rounded bg-green-600 px-4 py-2 text-white" onClick={finish}>{t.ui.finish}</button>
-        <button className="rounded border px-4 py-2" onClick={() => onCancel?.()}>{t.ui.back}</button>
+      {warning && <p role="alert" className="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-center text-xl font-bold text-red-700">{warning}</p>}
+      {reps >= assignment.reps && <p className="rounded-2xl border border-brand-200 bg-brand-50 px-5 py-4 text-center text-xl font-bold text-brand-800">{t.ui.targetReached}</p>}
+      <div className="flex gap-3">
+        <button className="btn-primary btn-lg flex-1" onClick={finish}>{t.ui.finish}</button>
+        <button className="btn-secondary btn-lg" onClick={() => onCancel?.()}>{t.ui.back}</button>
       </div>
     </div>
   );

@@ -28,33 +28,33 @@ const RegisterPage = () => {
   }
 
   return (
-    <main className="mx-auto max-w-sm p-4">
-      <h1 className="mb-4 text-2xl font-bold">Create an account</h1>
-      <form onSubmit={submit} className="flex flex-col gap-3">
-        <fieldset className="flex gap-4">
-          <legend className="mb-1">I am a:</legend>
-          <label className="flex items-center gap-1">
+    <main className="auth-card">
+      <h1 className="mb-7 text-2xl font-bold">Create an account</h1>
+      <form onSubmit={submit} className="flex flex-col gap-3.5">
+        <fieldset className="mb-1 grid grid-cols-2 gap-2">
+          <legend className="field-label mb-2">I am a:</legend>
+          <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 has-[:checked]:border-brand-500 has-[:checked]:bg-brand-50 has-[:checked]:text-brand-800 has-[:checked]:ring-4 has-[:checked]:ring-brand-500/10">
             <input type="radio" name="role" value="patient" checked={form.role === 'patient'} onChange={update('role')} />
             Patient
           </label>
-          <label className="flex items-center gap-1">
+          <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 has-[:checked]:border-brand-500 has-[:checked]:bg-brand-50 has-[:checked]:text-brand-800 has-[:checked]:ring-4 has-[:checked]:ring-brand-500/10">
             <input type="radio" name="role" value="physio" checked={form.role === 'physio'} onChange={update('role')} />
             Physiotherapist
           </label>
         </fieldset>
-        <input className="rounded border px-2 py-1" placeholder="Full name" autoComplete="name"
+        <input className="field" placeholder="Full name" autoComplete="name"
           value={form.name} onChange={update('name')} required maxLength={100} />
-        <input className="rounded border px-2 py-1" type="email" placeholder="Email" autoComplete="email"
+        <input className="field" type="email" placeholder="Email" autoComplete="email"
           value={form.email} onChange={update('email')} required />
-        <input className="rounded border px-2 py-1" type="password" placeholder="Password (8+ characters)"
+        <input className="field" type="password" placeholder="Password (8+ characters)"
           autoComplete="new-password" value={form.password} onChange={update('password')}
           required minLength={8} maxLength={72} />
-        {error && <p className="text-red-600">{error}</p>}
-        <button className="rounded bg-green-600 px-4 py-2 text-white disabled:opacity-50" disabled={busy}>
+        {error && <p className="alert-error">{error}</p>}
+        <button className="btn-primary btn-lg mt-2 w-full" disabled={busy}>
           {busy ? 'Creating…' : 'Create account'}
         </button>
       </form>
-      <p className="mt-4">Already have an account? <Link className="text-blue-600 underline" to="/login">Log in</Link></p>
+      <p className="mt-6 text-center text-sm text-slate-500">Already have an account? <Link className="link" to="/login">Log in</Link></p>
     </main>
   )
 }

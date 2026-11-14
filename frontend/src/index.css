@@ -184,24 +184,77 @@
   .field-label {
     @apply flex flex-col gap-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-slate-400;
   }
+  /* the label's small-caps styling shouldn't leak into the field itself */
+  .field-label > :is(input, select, textarea) {
+    @apply text-sm font-normal normal-case tracking-normal text-white;
+  }
 
   /* ---------- Inline validation (replaces the browser's popup) ----------
      :user-invalid only matches after the person has typed or tried to submit,
      so fields never look "wrong" before they're touched. */
-  .field:user-invalid {
+  :is(.field, .field-sm):user-invalid {
     @apply border-rose-400/60 bg-rose-500/[0.06] ring-4 ring-rose-500/10;
     animation: field-shake 0.4s var(--ease-out);
   }
-  .field:user-invalid:focus {
+  :is(.field, .field-sm):user-invalid:focus {
     @apply border-rose-400 ring-rose-500/20;
   }
+  /* correctly filled: green edge + a small check mark */
   .field:user-valid:not(:placeholder-shown) {
-    @apply border-brand-400/40;
+    @apply border-brand-400/40 pe-10;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%232ee6a6' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 10.5l3.2 3.2L15 7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 1.05rem;
+    background-position: right 0.9rem center;
+  }
+  [dir="rtl"] .field:user-valid:not(:placeholder-shown) {
+    background-position: left 0.9rem center;
+  }
+  .field-sm:user-valid {
+    @apply border-white/10;
   }
 
+  /* Exercise editor: the field's label turns red and says what's wrong */
+  .field-label:has(:user-invalid) {
+    @apply text-rose-300;
+  }
+  .field-label:has(input[type="number"]:user-invalid)::after {
+    content: "Out of range";
+    @apply -mt-0.5 text-[0.625rem] font-semibold normal-case tracking-normal text-rose-300;
+  }
+
+  /* Browser autofill: keep the dark field instead of Chrome's yellow/blue fill */
+  :is(.field, .field-sm):-webkit-autofill,
+  :is(.field, .field-sm):-webkit-autofill:hover,
+  :is(.field, .field-sm):-webkit-autofill:focus {
+    -webkit-text-fill-color: theme('colors.white');
+    caret-color: theme('colors.white');
+    -webkit-box-shadow: 0 0 0 1000px theme('colors.void.950') inset;
+    box-shadow: 0 0 0 1000px theme('colors.void.950') inset;
+    transition: background-color 99999s ease-out;
+  }
+
+  /* Number inputs: aligned digits, quieter spin buttons */
+  :is(.field, .field-sm)[type="number"] {
+    @apply tabular-nums;
+  }
+  :is(.field, .field-sm)[type="number"]::-webkit-inner-spin-button {
+    @apply opacity-40 hover:opacity-100;
+  }
+
+  /* Hints stay collapsed (and cancel the form's gap) until needed. They open
+     after a short delay so a message appearing on blur never shifts the submit
+     button out from under a click that's in progress. Set --gap to the
+     parent's gap when it isn't gap-3.5. */
   .field-hint {
-    @apply hidden -mt-1.5 items-start gap-2 text-[0.8125rem] font-medium leading-snug text-rose-200;
-    animation: hint-in 0.35s var(--ease-out) both;
+    @apply invisible flex items-start gap-2 overflow-hidden text-[0.8125rem] font-medium leading-snug text-rose-200 opacity-0;
+    max-height: 0;
+    margin-top: calc(-1 * var(--gap, 0.875rem));
+    transition:
+      max-height 0.3s var(--ease-out),
+      margin-top 0.3s var(--ease-out),
+      opacity 0.25s ease-out,
+      visibility 0.3s;
   }
   /* small glowing "!" badge */
   .field-hint::before {
@@ -209,19 +262,27 @@
     @apply mt-px grid h-4 w-4 shrink-0 place-items-center rounded-full bg-rose-400 text-[0.625rem] font-bold leading-none text-void-950;
     box-shadow: 0 0 10px rgb(251 113 133 / 0.6);
   }
-  /* empty field -> the "please fill this in" hint */
-  .field:user-invalid:placeholder-shown + .hint-empty {
-    @apply flex;
-  }
-  /* filled but wrong (bad email, too short) -> the "format" hint */
+  /* empty field -> the "please fill this in" hint;
+     filled but wrong (bad email, too short) -> the "format" hint */
+  .field:user-invalid:placeholder-shown + .hint-empty,
   .field:user-invalid:not(:placeholder-shown) + .hint-format,
   .field:user-invalid:not(:placeholder-shown) + .hint-empty + .hint-format {
-    @apply flex;
+    @apply visible opacity-100;
+    max-height: 4rem;
+    margin-top: calc(0.5rem - var(--gap, 0.875rem));
+    transition-delay: 0.2s;
   }
 
   /* ---------- Feedback ---------- */
+  /* Server-side errors (e.g. "Wrong email or password"), same language as field hints */
   .alert-error {
-    @apply animate-alert-in rounded-xl border border-rose-400/30 bg-rose-500/10 px-4 py-3 text-sm font-medium text-rose-200;
+    @apply flex animate-alert-in items-start gap-3 rounded-xl border border-rose-400/30 bg-rose-500/10 px-4 py-3 text-sm font-medium leading-snug text-rose-100;
+    box-shadow: 0 0 30px -12px rgb(244 63 94 / 0.55);
+  }
+  .alert-error::before {
+    content: "!";
+    @apply mt-px grid h-5 w-5 shrink-0 place-items-center rounded-full bg-rose-400 text-xs font-bold leading-none text-void-950;
+    box-shadow: 0 0 10px rgb(251 113 133 / 0.6);
   }
 
   .link {
@@ -314,11 +375,6 @@
   40% { transform: translateX(4px); }
   60% { transform: translateX(-3px); }
   80% { transform: translateX(2px); }
-}
-
-@keyframes hint-in {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: none; }
 }
 
 @keyframes logo-glow {

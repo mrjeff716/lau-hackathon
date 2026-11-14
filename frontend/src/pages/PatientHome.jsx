@@ -145,7 +145,7 @@ const PatientHome = () => {
               {/* invalid fields show the styled hints below instead of the browser's popup */}
               <input className="field min-w-0 max-w-xs flex-1 font-mono uppercase tracking-wider placeholder:normal-case placeholder:tracking-normal" placeholder="PT-XXXXXX" value={lookupId}
                 onChange={(e) => setLookupId(e.target.value)} required />
-              <p className="field-hint hint-empty order-last basis-full">Type your physiotherapist's ID first. It looks like PT-ABC234.</p>
+              <p className="field-hint hint-empty order-last basis-full [--gap:0.5rem]">Type your physiotherapist's ID first. It looks like PT-ABC234.</p>
               <button className="btn-primary" disabled={busy}>Find</button>
             </form>
             {found && (

@@ -141,9 +141,11 @@ const PatientHome = () => {
         ) : (
           <>
             <p className="mb-3 text-sm text-slate-300">Ask your physiotherapist for their ID (it looks like PT-ABC234).</p>
-            <form onSubmit={findPhysio} className="flex gap-2">
-              <input className="field max-w-xs font-mono uppercase tracking-wider placeholder:normal-case placeholder:tracking-normal" placeholder="PT-XXXXXX" value={lookupId}
+            <form onSubmit={findPhysio} onInvalidCapture={(e) => { e.preventDefault(); e.currentTarget.querySelector(':invalid')?.focus() }} className="flex flex-wrap gap-2">
+              {/* invalid fields show the styled hints below instead of the browser's popup */}
+              <input className="field min-w-0 max-w-xs flex-1 font-mono uppercase tracking-wider placeholder:normal-case placeholder:tracking-normal" placeholder="PT-XXXXXX" value={lookupId}
                 onChange={(e) => setLookupId(e.target.value)} required />
+              <p className="field-hint hint-empty order-last basis-full [--gap:0.5rem]">Type your physiotherapist's ID first. It looks like PT-ABC234.</p>
               <button className="btn-primary" disabled={busy}>Find</button>
             </form>
             {found && (

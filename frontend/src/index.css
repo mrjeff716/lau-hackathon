@@ -185,6 +185,40 @@
     @apply flex flex-col gap-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-slate-400;
   }
 
+  /* ---------- Inline validation (replaces the browser's popup) ----------
+     :user-invalid only matches after the person has typed or tried to submit,
+     so fields never look "wrong" before they're touched. */
+  .field:user-invalid {
+    @apply border-rose-400/60 bg-rose-500/[0.06] ring-4 ring-rose-500/10;
+    animation: field-shake 0.4s var(--ease-out);
+  }
+  .field:user-invalid:focus {
+    @apply border-rose-400 ring-rose-500/20;
+  }
+  .field:user-valid:not(:placeholder-shown) {
+    @apply border-brand-400/40;
+  }
+
+  .field-hint {
+    @apply hidden -mt-1.5 items-start gap-2 text-[0.8125rem] font-medium leading-snug text-rose-200;
+    animation: hint-in 0.35s var(--ease-out) both;
+  }
+  /* small glowing "!" badge */
+  .field-hint::before {
+    content: "!";
+    @apply mt-px grid h-4 w-4 shrink-0 place-items-center rounded-full bg-rose-400 text-[0.625rem] font-bold leading-none text-void-950;
+    box-shadow: 0 0 10px rgb(251 113 133 / 0.6);
+  }
+  /* empty field -> the "please fill this in" hint */
+  .field:user-invalid:placeholder-shown + .hint-empty {
+    @apply flex;
+  }
+  /* filled but wrong (bad email, too short) -> the "format" hint */
+  .field:user-invalid:not(:placeholder-shown) + .hint-format,
+  .field:user-invalid:not(:placeholder-shown) + .hint-empty + .hint-format {
+    @apply flex;
+  }
+
   /* ---------- Feedback ---------- */
   .alert-error {
     @apply animate-alert-in rounded-xl border border-rose-400/30 bg-rose-500/10 px-4 py-3 text-sm font-medium text-rose-200;
@@ -272,6 +306,19 @@
     background: linear-gradient(to bottom, transparent 0%, rgb(46 230 166 / 0.10) 48%, rgb(46 230 166 / 0.35) 50%, transparent 52%);
     animation: scan 4.5s linear infinite;
   }
+}
+
+@keyframes field-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(2px); }
+}
+
+@keyframes hint-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
 }
 
 @keyframes logo-glow {

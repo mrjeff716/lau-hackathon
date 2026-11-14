@@ -28,11 +28,15 @@ const LoginPage = () => {
   return (
     <main className="auth-card">
       <h1 className="mb-7 text-3xl font-semibold">Log in</h1>
-      <form onSubmit={submit} className="stagger flex flex-col gap-3.5">
+      <form onSubmit={submit} onInvalidCapture={(e) => { e.preventDefault(); e.currentTarget.querySelector(':invalid')?.focus() }} className="stagger flex flex-col gap-3.5">
+        {/* invalid fields show the styled hints below instead of the browser's popup */}
         <input className="field" type="email" placeholder="Email" autoComplete="email"
           value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <p className="field-hint hint-empty">Enter the email you signed up with.</p>
+        <p className="field-hint hint-format">That email looks incomplete. Try something like name@example.com.</p>
         <input className="field" type="password" placeholder="Password" autoComplete="current-password"
           value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <p className="field-hint hint-empty">Enter your password to continue.</p>
         {error && <p className="alert-error">{error}</p>}
         <button className="btn-primary btn-lg mt-2 w-full" disabled={busy}>
           {busy ? 'Logging in…' : 'Log in'}

@@ -27,8 +27,8 @@ const LoginPage = () => {
 
   return (
     <main className="auth-card">
-      <h1 className="mb-7 text-2xl font-bold">Log in</h1>
-      <form onSubmit={submit} className="flex flex-col gap-3.5">
+      <h1 className="mb-7 text-3xl font-semibold">Log in</h1>
+      <form onSubmit={submit} className="stagger flex flex-col gap-3.5">
         <input className="field" type="email" placeholder="Email" autoComplete="email"
           value={email} onChange={(e) => setEmail(e.target.value)} required />
         <input className="field" type="password" placeholder="Password" autoComplete="current-password"
@@ -38,7 +38,7 @@ const LoginPage = () => {
           {busy ? 'Logging in…' : 'Log in'}
         </button>
       </form>
-      <p className="mt-6 text-center text-sm text-slate-500">No account? <Link className="link" to="/register">Create one</Link></p>
+      <p className="mt-6 text-center text-sm text-slate-400">No account? <Link className="link" to="/register">Create one</Link></p>
     </main>
   )
 }

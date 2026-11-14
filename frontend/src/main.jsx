@@ -28,10 +28,14 @@ createRoot(document.getElementById('root')).render(
               padding: '10px 14px',
               fontSize: '14px',
               fontWeight: 500,
-              color: '#1e293b',
-              boxShadow: '0 2px 4px rgb(16 40 36 / 0.06), 0 12px 32px -8px rgb(16 40 36 / 0.16)',
+              color: '#e2e8f0',
+              background: 'rgb(7 26 21 / 0.85)',
+              backdropFilter: 'blur(16px)',
+              border: '1px solid rgb(46 230 166 / 0.25)',
+              boxShadow: '0 20px 40px -20px rgb(0 0 0 / 0.9), 0 0 30px -10px rgb(46 230 166 / 0.45)',
             },
-            success: { iconTheme: { primary: '#237b72', secondary: '#fff' } },
+            success: { iconTheme: { primary: '#2ee6a6', secondary: '#020a08' } },
+            error: { iconTheme: { primary: '#fb7185', secondary: '#020a08' } },
           }}
         />
       </AuthProvider>

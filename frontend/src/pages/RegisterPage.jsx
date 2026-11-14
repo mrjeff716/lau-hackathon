@@ -29,15 +29,15 @@ const RegisterPage = () => {
 
   return (
     <main className="auth-card">
-      <h1 className="mb-7 text-2xl font-bold">Create an account</h1>
-      <form onSubmit={submit} className="flex flex-col gap-3.5">
+      <h1 className="mb-7 text-3xl font-semibold">Create an account</h1>
+      <form onSubmit={submit} className="stagger flex flex-col gap-3.5">
         <fieldset className="mb-1 grid grid-cols-2 gap-2">
           <legend className="field-label mb-2">I am a:</legend>
-          <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 has-[:checked]:border-brand-500 has-[:checked]:bg-brand-50 has-[:checked]:text-brand-800 has-[:checked]:ring-4 has-[:checked]:ring-brand-500/10">
+          <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-white/10 bg-void-800/70 px-3 py-2.5 text-sm font-semibold text-slate-200 shadow-card transition hover:border-white/20 has-[:checked]:border-brand-400/60 has-[:checked]:bg-brand-400/10 has-[:checked]:text-brand-200 has-[:checked]:ring-4 has-[:checked]:shadow-glow">
             <input type="radio" name="role" value="patient" checked={form.role === 'patient'} onChange={update('role')} />
             Patient
           </label>
-          <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 has-[:checked]:border-brand-500 has-[:checked]:bg-brand-50 has-[:checked]:text-brand-800 has-[:checked]:ring-4 has-[:checked]:ring-brand-500/10">
+          <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-white/10 bg-void-800/70 px-3 py-2.5 text-sm font-semibold text-slate-200 shadow-card transition hover:border-white/20 has-[:checked]:border-brand-400/60 has-[:checked]:bg-brand-400/10 has-[:checked]:text-brand-200 has-[:checked]:ring-4 has-[:checked]:shadow-glow">
             <input type="radio" name="role" value="physio" checked={form.role === 'physio'} onChange={update('role')} />
             Physiotherapist
           </label>
@@ -54,7 +54,7 @@ const RegisterPage = () => {
           {busy ? 'Creating…' : 'Create account'}
         </button>
       </form>
-      <p className="mt-6 text-center text-sm text-slate-500">Already have an account? <Link className="link" to="/login">Log in</Link></p>
+      <p className="mt-6 text-center text-sm text-slate-400">Already have an account? <Link className="link" to="/login">Log in</Link></p>
     </main>
   )
 }

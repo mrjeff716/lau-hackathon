@@ -226,17 +226,15 @@
   .auth-card {
     @apply card mx-auto mt-[10vh] w-full max-w-sm animate-fade-up overflow-hidden p-8 shadow-lift sm:p-10;
   }
-  /* glowing medical "plus" emblem, drawn in CSS */
+  /* RehabVision brand lockup (logo + name), drawn in CSS */
   .auth-card > h1::before {
-    content: "";
-    @apply mb-7 block h-12 w-12 animate-glow-pulse rounded-2xl;
-    background-image:
-      linear-gradient(theme('colors.void.950'), theme('colors.void.950')),
-      linear-gradient(theme('colors.void.950'), theme('colors.void.950')),
-      linear-gradient(135deg, theme('colors.brand.300'), theme('colors.brand.600'));
-    background-size: 4px 22px, 22px 4px, 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
+    content: "RehabVision";
+    @apply mb-8 flex h-14 items-center ps-[4.25rem] text-xl font-bold tracking-tight text-white;
+    background: url("/logo-mark.png") left center / 3.5rem 3.5rem no-repeat;
+    animation: logo-glow 3.2s ease-in-out infinite;
+  }
+  [dir="rtl"] .auth-card > h1::before {
+    background-position: right center;
   }
   /* heartbeat trace across the top of the card */
   .auth-card::after {
@@ -274,6 +272,11 @@
     background: linear-gradient(to bottom, transparent 0%, rgb(46 230 166 / 0.10) 48%, rgb(46 230 166 / 0.35) 50%, transparent 52%);
     animation: scan 4.5s linear infinite;
   }
+}
+
+@keyframes logo-glow {
+  0%, 100% { filter: drop-shadow(0 0 6px rgb(46 230 166 / 0.25)); }
+  50% { filter: drop-shadow(0 0 16px rgb(46 230 166 / 0.55)); }
 }
 
 @keyframes shimmer {

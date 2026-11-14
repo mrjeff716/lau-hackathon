@@ -208,9 +208,13 @@ export default function ExerciseCoach({ assignment, lang = DEFAULT_LANG, onFinis
       </h2>
       {/* Video and canvas are stacked: the skeleton drawing sits on top of the camera */}
       <div className="hud-frame overflow-hidden rounded-2xl bg-void-950 shadow-glow-lg ring-1 ring-brand-400/30" style={{ position: "relative" }}>
-        {/* mirrored so it feels like a mirror to the patient */}
-        <video ref={videoRef} playsInline muted className="block aspect-[4/3] bg-void-950 object-cover" style={{ width: "100%", transform: "scaleX(-1)" }} />
-        <canvas ref={canvasRef}
+        {/* mirrored so it feels like a mirror to the patient.
+            Video AND canvas both use object-contain inside the same 4:3 box, so they
+            scale and letterbox identically and the skeleton always lines up with the
+            body — even when a phone camera gives a tall (portrait) image.
+            (object-cover would crop only the video and misalign the skeleton.) */}
+        <video ref={videoRef} playsInline muted className="block aspect-[4/3] bg-void-950 object-contain" style={{ width: "100%", transform: "scaleX(-1)" }} />
+        <canvas ref={canvasRef} className="object-contain"
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", transform: "scaleX(-1)" }} />
       </div>
       {!ready && <p className="animate-pulse text-center text-sm font-medium text-slate-400">{t.ui.loading}</p>}

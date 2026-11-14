@@ -15,7 +15,7 @@ const App = () => {
   const { user, loading } = useAuth()
 
   // While checking a saved login, show nothing else (avoids a flash of the login page)
-  if (loading) return <p className="p-4">Loading…</p>
+  if (loading) return <p className="grid min-h-screen animate-pulse place-items-center font-mono text-xs uppercase tracking-[0.3em] text-brand-300">Loading…</p>
 
   return (
     <Routes>

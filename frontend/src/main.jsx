@@ -20,7 +20,24 @@ createRoot(document.getElementById('root')).render(
       <AuthProvider>
         <App />
         {/* Toaster: where pop-up notifications (toast.success(...)) appear */}
-        <Toaster />
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            style: {
+              borderRadius: '14px',
+              padding: '10px 14px',
+              fontSize: '14px',
+              fontWeight: 500,
+              color: '#e2e8f0',
+              background: 'rgb(7 26 21 / 0.85)',
+              backdropFilter: 'blur(16px)',
+              border: '1px solid rgb(46 230 166 / 0.25)',
+              boxShadow: '0 20px 40px -20px rgb(0 0 0 / 0.9), 0 0 30px -10px rgb(46 230 166 / 0.45)',
+            },
+            success: { iconTheme: { primary: '#2ee6a6', secondary: '#020a08' } },
+            error: { iconTheme: { primary: '#fb7185', secondary: '#020a08' } },
+          }}
+        />
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>,

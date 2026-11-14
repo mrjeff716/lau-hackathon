@@ -26,19 +26,19 @@ const LoginPage = () => {
   }
 
   return (
-    <main className="mx-auto max-w-sm p-4">
-      <h1 className="mb-4 text-2xl font-bold">Log in</h1>
-      <form onSubmit={submit} className="flex flex-col gap-3">
-        <input className="rounded border px-2 py-1" type="email" placeholder="Email" autoComplete="email"
+    <main className="auth-card">
+      <h1 className="mb-7 text-3xl font-semibold">Log in</h1>
+      <form onSubmit={submit} className="stagger flex flex-col gap-3.5">
+        <input className="field" type="email" placeholder="Email" autoComplete="email"
           value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input className="rounded border px-2 py-1" type="password" placeholder="Password" autoComplete="current-password"
+        <input className="field" type="password" placeholder="Password" autoComplete="current-password"
           value={password} onChange={(e) => setPassword(e.target.value)} required />
-        {error && <p className="text-red-600">{error}</p>}
-        <button className="rounded bg-green-600 px-4 py-2 text-white disabled:opacity-50" disabled={busy}>
+        {error && <p className="alert-error">{error}</p>}
+        <button className="btn-primary btn-lg mt-2 w-full" disabled={busy}>
           {busy ? 'Logging in…' : 'Log in'}
         </button>
       </form>
-      <p className="mt-4">No account? <Link className="text-blue-600 underline" to="/register">Create one</Link></p>
+      <p className="mt-6 text-center text-sm text-slate-400">No account? <Link className="link" to="/register">Create one</Link></p>
     </main>
   )
 }

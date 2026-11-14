@@ -42,25 +42,25 @@ const PhysioHome = () => {
   useEffect(() => { load() }, [load])
 
   return (
-    <div className="flex flex-col gap-6">
-      <section>
-        <p>
-          Your public ID: <code className="rounded bg-gray-100 px-2 py-1 text-lg">{user.publicId}</code>
+    <div className="stagger flex flex-col gap-8">
+      <section className="card overflow-hidden border-brand-400/25 bg-gradient-to-br from-brand-500/20 via-void-800/70 to-pulse/10 p-6 text-slate-300 shadow-lift">
+        <p className="flex flex-wrap items-center gap-3 text-sm font-medium">
+          Your public ID: <code className="animate-glow-pulse rounded-xl bg-void-950/70 px-4 py-2 text-xl font-semibold tracking-[0.25em] text-brand-200">{user.publicId}</code>
         </p>
-        <p className="text-sm">Give this ID to your patients so they can add you.</p>
+        <p className="mt-3 text-sm text-slate-400">Give this ID to your patients so they can add you.</p>
       </section>
 
-      {error && <p className="text-red-600">{error}</p>}
+      {error && <p className="alert-error">{error}</p>}
 
       <section>
-        <div className="mb-2 flex items-center gap-3">
-          <h2 className="text-xl font-semibold">My patients</h2>
-          <button className="rounded border px-3 py-1" onClick={load}>Refresh</button>
+        <div className="mb-4 flex items-center justify-between gap-3 px-1">
+          <h2 className="section-title mb-0">My patients</h2>
+          <button className="btn-secondary" onClick={load}>Refresh</button>
         </div>
         {patients.length === 0 ? (
-          <p>No patients yet. They will appear here after they add your ID.</p>
+          <p className="card border-dashed px-5 py-8 text-center text-sm text-slate-400 shadow-none">No patients yet. They will appear here after they add your ID.</p>
         ) : (
-          <ul className="flex flex-col gap-3">
+          <ul className="stagger flex flex-col gap-4">
             {patients.map((p) => (
               <PatientCard key={p._id} patient={p} catalog={catalog} onChanged={load} onError={handleError} />
             ))}
@@ -68,14 +68,14 @@ const PhysioHome = () => {
         )}
       </section>
 
-      <section>
-        <h2 className="mb-2 text-xl font-semibold">Needs attention (last 7 days)</h2>
+      <section className="card border-amber-400/20 p-5 sm:p-6">
+        <h2 className="section-title">Needs attention (last 7 days)</h2>
         {flags.length === 0 ? (
-          <p>No patients flagged.</p>
+          <p className="text-sm text-slate-400">No patients flagged.</p>
         ) : (
-          <ul className="list-disc pl-5">
+          <ul className="flex flex-col gap-2">
             {flags.map((f) => (
-              <li key={f.patientId}>
+              <li key={f.patientId} className="rounded-xl border-s-4 border-amber-300 bg-amber-400/10 px-4 py-2.5 text-sm text-amber-100">
                 <b>{f.name}</b>: {f.reasons.join('; ')}
                 {f.lastSeen && ` (last session ${new Date(f.lastSeen).toLocaleDateString()})`}
               </li>
@@ -85,7 +85,7 @@ const PhysioHome = () => {
       </section>
 
       {catalog && (
-        <section className="text-sm text-gray-600">
+        <section className="px-1 text-xs leading-relaxed text-slate-400">
           <p><b>Safety:</b> {catalog.safety_note}</p>
           <p className="mt-1"><b>Measurement:</b> {catalog.measurement_note}</p>
         </section>
@@ -124,14 +124,14 @@ function PatientCard({ patient, catalog, onChanged, onError }) {
   const exercises = patient.exercises ?? []
 
   return (
-    <li className="rounded border p-3">
-      <div className="font-semibold">{patient.name} <span className="font-normal">({patient.email})</span></div>
+    <li className="card card-hover p-5 sm:p-6">
+      <div className="text-lg font-bold text-white">{patient.name} <span className="text-sm font-medium text-slate-400">({patient.email})</span></div>
       {exercises.length === 0 ? (
-        <p>No exercises assigned.</p>
+        <p className="mt-2 text-sm text-slate-400">No exercises assigned.</p>
       ) : (
-        <ul className="list-disc pl-5">
+        <ul className="mt-3 flex flex-col gap-1.5 text-sm text-slate-200">
           {exercises.map((a) => (
-            <li key={a._id}>
+            <li key={a._id} className="rounded-lg bg-white/[0.03] px-3 py-2">
               {nameOf(a.exerciseId)} ({a.side}): {a.reps} reps, {a.startAngle}° → {a.targetAngle}°,
               safe range {a.permittedMin}°–{a.permittedMax}°
             </li>
@@ -139,14 +139,14 @@ function PatientCard({ patient, catalog, onChanged, onError }) {
         </ul>
       )}
 
-      <div className="mt-2 flex gap-2">
-        <button className="rounded border px-3 py-1" onClick={() => setEditing(!editing)} disabled={!catalog}>
+      <div className="mt-4 flex flex-wrap gap-2 border-t border-white/5 pt-4">
+        <button className="btn-secondary" onClick={() => setEditing(!editing)} disabled={!catalog}>
           {editing ? 'Close editor' : 'Edit exercises'}
         </button>
-        <button className="rounded border px-3 py-1" onClick={toggleSessions}>
+        <button className="btn-secondary" onClick={toggleSessions}>
           {sessions ? 'Hide sessions' : 'Sessions'}
         </button>
-        <button className="rounded border px-3 py-1 text-red-700" onClick={remove}>Remove patient</button>
+        <button className="btn-danger ms-auto" onClick={remove}>Remove patient</button>
       </div>
 
       {editing && catalog && (
@@ -159,10 +159,10 @@ function PatientCard({ patient, catalog, onChanged, onError }) {
       )}
 
       {sessions && (
-        sessions.length === 0 ? <p className="mt-2">No sessions yet.</p> : (
-          <table className="mt-2 w-full text-sm">
+        sessions.length === 0 ? <p className="mt-4 text-sm text-slate-400">No sessions yet.</p> : (
+          <table className="data-table mt-4 block overflow-x-auto rounded-xl border border-white/10 sm:table">
             <thead>
-              <tr className="text-left"><th>Date</th><th>Exercise</th><th>Side</th><th>Good / total reps</th><th>Target</th></tr>
+              <tr><th>Date</th><th>Exercise</th><th>Side</th><th>Good / total reps</th><th>Target</th></tr>
             </thead>
             <tbody>
               {sessions.map((s) => (
@@ -252,32 +252,32 @@ function AssignmentEditor({ patient, catalog, onSaved, onError }) {
   }
 
   const numberField = (i, field, label) => (
-    <label className="flex flex-col text-sm">
+    <label className="field-label">
       {label}
-      <input className="w-20 rounded border px-1" type="number" min="0" max="180"
+      <input className="field-sm w-24" type="number" min="0" max="180"
         value={rows[i][field]} onChange={(e) => updateRow(i, { [field]: e.target.value })} />
     </label>
   )
 
   return (
-    <div className="mt-3 rounded bg-gray-50 p-3">
-      <p className="mb-2 text-sm">
+    <div className="mt-4 animate-fade-up rounded-2xl border border-white/10 bg-void-950/40 p-4 sm:p-5">
+      <p className="mb-4 text-xs leading-relaxed text-slate-400">
         Angles in degrees, 0° = neutral (e.g. straight knee). Defaults are healthy reference values,
         not a prescription — set them for this patient. Max {MAX_EXERCISES} exercises.
       </p>
       {rows.map((r, i) => (
-        <div key={i} className="mb-3 flex flex-col gap-2 border-b pb-3">
-          <div className="flex flex-wrap items-end gap-2">
-            <label className="flex flex-col text-sm">
+        <div key={i} className="mb-4 flex flex-col gap-3 rounded-xl border border-white/10 bg-void-800/70 p-4 shadow-card">
+          <div className="flex flex-wrap items-end gap-3">
+            <label className="field-label">
               Exercise
-              <select className="rounded border px-1" value={r.exerciseId}
+              <select className="field-sm" value={r.exerciseId}
                 onChange={(e) => updateRow(i, defaultsFor(catalog, e.target.value))}>
                 {catalog.exercises.map((ex) => <option key={ex.id} value={ex.id}>{ex.name}</option>)}
               </select>
             </label>
-            <label className="flex flex-col text-sm">
+            <label className="field-label">
               Side
-              <select className="rounded border px-1" value={r.side} onChange={(e) => updateRow(i, { side: e.target.value })}>
+              <select className="field-sm" value={r.side} onChange={(e) => updateRow(i, { side: e.target.value })}>
                 <option value="left">Left</option>
                 <option value="right">Right</option>
               </select>
@@ -286,33 +286,33 @@ function AssignmentEditor({ patient, catalog, onSaved, onError }) {
             {numberField(i, 'targetAngle', 'Target °')}
             {numberField(i, 'permittedMin', 'Safe min °')}
             {numberField(i, 'permittedMax', 'Safe max °')}
-            <label className="flex flex-col text-sm">
+            <label className="field-label">
               Reps
-              <input className="w-16 rounded border px-1" type="number" min="1" max="100"
+              <input className="field-sm w-20" type="number" min="1" max="100"
                 value={r.reps} onChange={(e) => updateRow(i, { reps: e.target.value })} />
             </label>
-            <button className="rounded border px-2 py-1 text-sm text-red-700"
+            <button className="btn-danger ms-auto"
               onClick={() => setRows(rows.filter((_, j) => j !== i))}>Remove</button>
           </div>
-          <label className="flex flex-col text-sm">
+          <label className="field-label">
             Stop if (pain / symptoms)
-            <input className="rounded border px-1" maxLength={500} value={r.stopCriteria}
+            <input className="field-sm normal-case tracking-normal" maxLength={500} value={r.stopCriteria}
               placeholder="e.g. sharp pain, swelling, pain above 5/10"
               onChange={(e) => updateRow(i, { stopCriteria: e.target.value })} />
           </label>
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex cursor-pointer items-start gap-2.5 rounded-lg bg-amber-400/10 px-3 py-2.5 text-sm font-medium text-amber-100">
             <input type="checkbox" checked={r.clinicalClearance}
               onChange={(e) => updateRow(i, { clinicalClearance: e.target.checked })} />
             I confirm this patient is clinically cleared for this exercise and range
           </label>
         </div>
       ))}
-      {error && <p className="text-red-600">{error}</p>}
+      {error && <p className="alert-error mb-3">{error}</p>}
       <div className="flex gap-2">
-        <button className="rounded border px-3 py-1" onClick={addRow} disabled={rows.length >= MAX_EXERCISES}>
+        <button className="btn-secondary" onClick={addRow} disabled={rows.length >= MAX_EXERCISES}>
           Add exercise
         </button>
-        <button className="rounded bg-green-600 px-3 py-1 text-white disabled:opacity-50" onClick={save} disabled={busy}>
+        <button className="btn-primary" onClick={save} disabled={busy}>
           Save
         </button>
       </div>

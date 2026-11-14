@@ -1,9 +1,9 @@
 {
-  "title": "Five representative rehabilitation exercises for MediaPipe joint-angle tracking",
+  "title": "Six representative rehabilitation exercises for MediaPipe joint-angle tracking",
   "version": "1.0",
   "date_created": "2026-11-14",
   "units": "degrees",
-  "scope_note": "These are five widely used examples, NOT an evidence-based ranking of the five most common exercises worldwide.",
+  "scope_note": "These are six widely used examples, NOT an evidence-based ranking of the six most common exercises worldwide.",
   "safety_note": "Healthy normative ROM is NOT a rehabilitation prescription, required performance threshold, or safe movement limit. A licensed physiotherapist or physician must set diagnosis-, procedure-, and phase-specific limits and goals for each patient. Stop and seek clinical advice for new or escalating symptoms. The software is intended to assist rather than replace clinical assessment.",
   "measurement_note": "MediaPipe estimates external landmarks; the resulting angles are approximations, not clinically validated goniometry or intra-articular joint motion. Calibrate cameras, align with the relevant motion plane, track 3D / multi-view consistency where feasible, and validate degree error against a clinical reference before clinical deployment.",
   "patient_specific_fields_required_before_use": [
@@ -307,6 +307,79 @@
       ],
       "sources": [
         "nhs_elbow",
+        "rom_norms",
+        "soucie_2011",
+        "mediapipe_landmarks"
+      ]
+    },
+    {
+      "id": "standing_bicep_curl",
+      "name": "Bicep curl (resisted elbow flexion)",
+      "region": "upper_body",
+      "primary_joint": "elbow",
+      "movement": "elbow_flexion_resisted",
+      "purpose": "Strengthen the elbow flexors (biceps) while monitoring elbow bending range of motion",
+      "setup": "Stand or sit tall with the arm at the side, palm facing forward, holding a light weight or resistance band only as prescribed.",
+      "ideal_form": [
+        "Keep the upper arm still and close to the side of the body.",
+        "Bend the elbow slowly, bringing the hand toward the shoulder.",
+        "Avoid swinging the body, leaning back, or moving the shoulder forward to lift the weight.",
+        "Keep the wrist straight and in line with the forearm.",
+        "Lower the weight slowly and under control back to the starting position.",
+        "Use only the load and range permitted by the treating clinician; stop if it causes sharp pain."
+      ],
+      "reference_rom_deg": {
+        "joint": "elbow",
+        "motion": "flexion",
+        "neutral": 0,
+        "healthy_reference_max": 150,
+        "units": "degrees",
+        "clinical_goal_deg": null,
+        "interpretation": "0° indicates full elbow extension; 150° is a conventional healthy elbow flexion reference. The load (weight or band) and the permitted range must be set by the clinician."
+      },
+      "illustrative_motion_deg": {
+        "start": 0,
+        "end": 150,
+        "label": "anatomical reference endpoints only; resisted curls often use a smaller range"
+      },
+      "measurement": {
+        "joint": "elbow",
+        "mediapipe_landmarks_per_side": {
+          "left": [
+            "left_shoulder",
+            "left_elbow",
+            "left_wrist"
+          ],
+          "right": [
+            "right_shoulder",
+            "right_elbow",
+            "right_wrist"
+          ]
+        },
+        "mediapipe_ids": {
+          "left": [
+            11,
+            13,
+            15
+          ],
+          "right": [
+            12,
+            14,
+            16
+          ]
+        },
+        "calculation": "Elbow flexion = 180 - included angle at elbow formed by shoulder-elbow-wrist. 0° represents straight elbow. The app tracks the angle only, not the weight lifted.",
+        "output": "peak_elbow_flexion_deg",
+        "preferred_camera_view": "Side view perpendicular to the forearm movement plane; shoulder, elbow, wrist fully visible and not hidden by the weight."
+      },
+      "form_flags": [
+        "body_swinging_or_momentum",
+        "shoulder_moves_forward",
+        "trunk_leaning_back",
+        "wrist_bending",
+        "weight_occludes_wrist"
+      ],
+      "sources": [
         "rom_norms",
         "soucie_2011",
         "mediapipe_landmarks"

@@ -73,7 +73,7 @@ export function hipAbductionAngle(shoulder, hip, knee, otherHip) {
   return (Math.atan2(Math.abs(cross), dot) * 180) / Math.PI;
 }
 
-// The five exercises from the catalog. For each side: which landmark IDs to
+// The six exercises from the catalog. For each side: which landmark IDs to
 // use, and how to turn them into the clinical angle.
 export const EXERCISES = {
   supine_heel_slide: {
@@ -94,6 +94,12 @@ export const EXERCISES = {
   },
   seated_elbow_flexion: {
     // elbow flexion: shoulder -> elbow -> wrist
+    landmarks: { left: [11, 13, 15], right: [12, 14, 16] },
+    measure: ([shoulder, elbow, wrist]) => flexionAngle(shoulder, elbow, wrist),
+  },
+  standing_bicep_curl: {
+    // bicep curl = elbow flexion with a weight: same shoulder -> elbow -> wrist
+    // measurement (the app tracks the angle only, not the weight)
     landmarks: { left: [11, 13, 15], right: [12, 14, 16] },
     measure: ([shoulder, elbow, wrist]) => flexionAngle(shoulder, elbow, wrist),
   },

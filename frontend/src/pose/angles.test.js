@@ -1,6 +1,7 @@
 // Tests for the angle maths and rep counting. Run with:  npm test
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import {
   jointAngle, flexionAngle, hipAbductionAngle, makeRepCounter, measureAngle,
   outsideSafeRange, EXERCISES,
@@ -69,7 +70,32 @@ test("measureAngle uses the right landmarks for each exercise and side", () => {
   // Left side points are all at the origin -> no angle
   assert.equal(measureAngle("supine_heel_slide", "left", world), null);
   assert.equal(measureAngle("unknown", "right", world), null);
-  assert.equal(Object.keys(EXERCISES).length, 5);
+  assert.equal(Object.keys(EXERCISES).length, 6);
+});
+
+test("bicep curl: straight arm 0°, elbow bent to a right angle 90°", () => {
+  const world = Array.from({ length: 33 }, () => p(0, 0));
+  // Left arm: shoulder(11) above elbow(13); wrist(15) straight down, then forward
+  world[11] = p(0, -1); world[13] = p(0, 0); world[15] = p(0, 1);
+  close(measureAngle("standing_bicep_curl", "left", world), 0);
+  world[15] = p(1, 0);
+  close(measureAngle("standing_bicep_curl", "left", world), 90);
+  // A curl from 0° to 130° x2 counts 2 good reps
+  const { reps, done } = run({ start: 0, target: 130 }, cycles(0, 130, 2));
+  assert.equal(reps, 2);
+  assert.ok(done.every((d) => d.reachedTarget));
+});
+
+test("every exercise in the catalog JSON has matching angle code and landmark IDs", () => {
+  const catalog = JSON.parse(readFileSync(
+    new URL("../../../backend/src/data/rehabilitation_exercises_mediapipe.json", import.meta.url), "utf8"));
+  const ids = catalog.exercises.map((e) => e.id).sort();
+  assert.deepEqual(Object.keys(EXERCISES).sort(), ids);
+  for (const e of catalog.exercises) {
+    for (const side of ["left", "right"]) {
+      assert.deepEqual(EXERCISES[e.id].landmarks[side], e.measurement.mediapipe_ids[side], `${e.id} ${side}`);
+    }
+  }
 });
 
 test("heel slide 0° -> 90° x3: 3 good reps", () => {
